@@ -25,7 +25,7 @@ public class MybatisDataSourceConfig {
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 		try {
 //		    如果是刚开始搭建项目时，mapping 底下没有 xml 就要注释掉这里，要不然会报错
-			bean.setMapperLocations(resolver.getResources("classpath:com/hmily/rocketmq/order/mapping/*.xml"));
+//			bean.setMapperLocations(resolver.getResources("classpath:mapping/*.xml"));
 			SqlSessionFactory sqlSessionFactory = bean.getObject();
 			sqlSessionFactory.getConfiguration().setCacheEnabled(Boolean.TRUE);
 			
