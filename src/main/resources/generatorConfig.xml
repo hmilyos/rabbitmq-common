@@ -21,7 +21,7 @@
         <!--jdbc的数据库连接 -->
         <jdbcConnection
                 driverClass="${spring.datasource.driver-class-name}"
-                connectionURL="jdbc:mysql://120.79.151.179:3306/testrocketmq?characterEncoding=UTF-8"
+                connectionURL="jdbc:mysql://120.79.151.179:3306/rabbitmq_common?characterEncoding=UTF-8"
                 userId="${spring.datasource.username}"
                 password="${spring.datasource.password}">
         </jdbcConnection>
@@ -37,7 +37,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径
         -->
-        <javaModelGenerator targetPackage="com.hmily.rocketmq.order.domain" targetProject="./src/main/java">
+        <javaModelGenerator targetPackage="com.hmily.rabbitmq.rabbitmqcommon.entity" targetProject="./src/main/java">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否对model添加 构造函数 -->
@@ -49,7 +49,7 @@
         </javaModelGenerator>
 
         <!--mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
-        <sqlMapGenerator targetPackage="com.hmily.rocketmq.order.mapping" targetProject="./src/main/java">
+        <sqlMapGenerator targetPackage="mapping" targetProject="./src/main/resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
@@ -60,20 +60,20 @@
         -->
 
         <!-- targetPackage：mapper接口dao生成的位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hmily.rocketmq.order.mapper" targetProject="./src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hmily.rabbitmq.rabbitmqcommon.mapper" targetProject="./src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
 
-        <!--<table tableName="mmall_shipping" domainObjectName="Shipping" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
-        <table tableName="t_order" domainObjectName="Order" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="t_mq_message_failed" domainObjectName="MessageFailed" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="fail_desc" jdbcType="VARCHAR" />
+        </table>
 
-        <!--<table tableName="mmall_product" domainObjectName="Product" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
-            <!--<columnOverride column="detail" jdbcType="VARCHAR" />-->
-            <!--<columnOverride column="sub_images" jdbcType="VARCHAR" />-->
-        <!--</table>-->
+        <table tableName="t_mq_message_log" domainObjectName="Message" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="message" jdbcType="VARCHAR" />
+        </table>
 
 
         <!-- geelynote mybatis插件的搭建 -->
