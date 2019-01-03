@@ -32,7 +32,7 @@
       create_time, update_time)
     values (#{messageId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, 
       #{tryCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{nextRetry,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.Message" >
     insert into t_mq_message_log
@@ -82,10 +82,10 @@
         #{nextRetry,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -107,11 +107,11 @@
       <if test="nextRetry != null" >
         next_retry = #{nextRetry,jdbcType=TIMESTAMP},
       </if>
-      <if test="createTime != null" >
+      <!-- <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
+      </if> -->
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where message_id = #{messageId,jdbcType=BIGINT}
@@ -123,8 +123,7 @@
       try_count = #{tryCount,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       next_retry = #{nextRetry,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where message_id = #{messageId,jdbcType=BIGINT}
   </update>
 </mapper>

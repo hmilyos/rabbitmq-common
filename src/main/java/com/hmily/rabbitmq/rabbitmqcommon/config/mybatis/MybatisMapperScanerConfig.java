@@ -14,7 +14,7 @@ public class MybatisMapperScanerConfig {
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("com.hmily.rocketmq.order.mapper");
+        mapperScannerConfigurer.setBasePackage("com.hmily.rabbitmq.rabbitmqcommon.mapper");
         return mapperScannerConfigurer;
     }
 

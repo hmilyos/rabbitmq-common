@@ -29,7 +29,7 @@
       fail_desc, create_time, update_time
       )
     values (#{failId,jdbcType=BIGINT}, #{messageId,jdbcType=BIGINT}, #{failTitle,jdbcType=VARCHAR}, 
-      #{failDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{failDesc,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.MessageFailed" >
@@ -68,15 +68,15 @@
         #{failDesc,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.MessageFailed" >
-    update t_mq_message_failed
+    update t_mq_message_failed 
     <set >
       <if test="messageId != null" >
         message_id = #{messageId,jdbcType=BIGINT},
@@ -87,11 +87,11 @@
       <if test="failDesc != null" >
         fail_desc = #{failDesc,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <!-- <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
+      </if> -->
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where fail_id = #{failId,jdbcType=BIGINT}
@@ -101,8 +101,7 @@
     set message_id = #{messageId,jdbcType=BIGINT},
       fail_title = #{failTitle,jdbcType=VARCHAR},
       fail_desc = #{failDesc,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where fail_id = #{failId,jdbcType=BIGINT}
   </update>
 </mapper>

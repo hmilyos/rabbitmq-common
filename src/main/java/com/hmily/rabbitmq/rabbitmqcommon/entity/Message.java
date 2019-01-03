@@ -1,9 +1,15 @@
 package com.hmily.rabbitmq.rabbitmqcommon.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Message {
-    private Long messageId;
+public class Message implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4067301097333717843L;
+
+	private Long messageId;
 
     private Integer type;
 
@@ -97,4 +103,13 @@ public class Message {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	@Override
+	public String toString() {
+		return "Message [messageId=" + messageId + ", type=" + type + ", message=" + message + ", tryCount=" + tryCount
+				+ ", status=" + status + ", nextRetry=" + nextRetry + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + "]";
+	}
+    
+    
 }

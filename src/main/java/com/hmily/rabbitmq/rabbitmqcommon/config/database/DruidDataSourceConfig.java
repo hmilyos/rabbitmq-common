@@ -69,7 +69,7 @@ public class DruidDataSourceConfig {
 		ds.setPassword(druidSettings.getPassword());
 		ds.setInitialSize(druidSettings.getInitialSize());
 		ds.setMinIdle(druidSettings.getMinIdle());
-		ds.setMaxIdle(druidSettings.getMaxIdle());
+//		ds.setMaxIdle(druidSettings.getMaxIdle());
 		ds.setMaxActive(druidSettings.getMaxActive());
 		ds.setTimeBetweenEvictionRunsMillis(druidSettings.getTimeBetweenEvictionRunsMillis());
 		ds.setMinEvictableIdleTimeMillis(druidSettings.getMinEvictableIdleTimeMillis());

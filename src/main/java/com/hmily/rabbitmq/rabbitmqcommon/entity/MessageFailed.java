@@ -1,9 +1,15 @@
 package com.hmily.rabbitmq.rabbitmqcommon.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MessageFailed {
-    private Long failId;
+public class MessageFailed implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2193273506014705059L;
+
+	private Long failId;
 
     private Long messageId;
 
@@ -15,13 +21,12 @@ public class MessageFailed {
 
     private Date updateTime;
 
-    public MessageFailed(Long failId, Long messageId, String failTitle, String failDesc, Date createTime, Date updateTime) {
-        this.failId = failId;
+    public MessageFailed(Long messageId, String failTitle, String failDesc) {
         this.messageId = messageId;
         this.failTitle = failTitle;
         this.failDesc = failDesc;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
+        this.createTime = new Date();
+        this.updateTime = new Date();
     }
 
     public MessageFailed() {
@@ -75,4 +80,12 @@ public class MessageFailed {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	@Override
+	public String toString() {
+		return "MessageFailed [failId=" + failId + ", messageId=" + messageId + ", failTitle=" + failTitle
+				+ ", failDesc=" + failDesc + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
+	}
+    
+    
 }
