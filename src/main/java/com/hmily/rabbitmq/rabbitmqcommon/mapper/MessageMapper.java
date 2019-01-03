@@ -1,6 +1,9 @@
 package com.hmily.rabbitmq.rabbitmqcommon.mapper;
 
 import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface MessageMapper {
     int deleteByPrimaryKey(Long messageId);
@@ -14,4 +17,12 @@ public interface MessageMapper {
     int updateByPrimaryKeySelective(Message record);
 
     int updateByPrimaryKey(Message record);
+
+    void changeMessageStatus(@Param("messageId")long messageId, @Param("status")int status);
+
+    int updataNextRetryTimeForNow(long messageId);
+
+    List<Message> getNotProcessingInByType(@Param("type")Integer type, @Param("maxTryCount")Integer maxTryCount, @Param("status")Integer status);
+
+//    date_add(now(), interval - 5 minute)
 }

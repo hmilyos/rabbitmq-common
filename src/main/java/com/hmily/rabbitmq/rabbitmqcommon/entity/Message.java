@@ -25,15 +25,15 @@ public class Message implements Serializable {
 
     private Date updateTime;
 
-    public Message(Long messageId, Integer type, String message, Integer tryCount, Integer status, Date nextRetry, Date createTime, Date updateTime) {
+    public Message(Long messageId, Integer type, String message, Integer tryCount, Integer status, Date nextRetry) {
         this.messageId = messageId;
         this.type = type;
         this.message = message;
         this.tryCount = tryCount;
         this.status = status;
         this.nextRetry = nextRetry;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
+        this.createTime = new Date();
+        this.updateTime = new Date();
     }
 
     public Message() {

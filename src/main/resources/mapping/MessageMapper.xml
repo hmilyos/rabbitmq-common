@@ -22,6 +22,7 @@
     from t_mq_message_log
     where message_id = #{messageId,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_mq_message_log
     where message_id = #{messageId,jdbcType=BIGINT}
@@ -126,4 +127,22 @@
       update_time = now()
     where message_id = #{messageId,jdbcType=BIGINT}
   </update>
+
+    <update id="changeMessageStatus" >
+        update t_mq_message_log bml set bml.status = #{status, jdbcType=INTEGER}, bml.update_time = now()
+          where bml.message_id = #{messageId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updataNextRetryTimeForNow">
+        update t_mq_message_log m set m.next_retry = now(),  m.update_time = now() where m.message_id = #{messageId,jdbcType=BIGINT}
+    </update>
+
+    <select id="getNotProcessingInByType" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+          from t_mq_message_log m
+          where m.type = #{type, jdbcType=INTEGER}
+                and m.status = #{status,jdbcType=INTEGER}
+                and  m.try_count < #{maxTryCount,jdbcType=INTEGER}
+                and m.next_retry <= sysdate()
+    </select>
 </mapper>

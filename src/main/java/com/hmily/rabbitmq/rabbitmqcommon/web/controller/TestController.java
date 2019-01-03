@@ -17,10 +17,10 @@ public class TestController {
 	
 	private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
-    @Reference(version = "1.0.0",
+    @Reference(version = "${snowFlakeServiceApi.version}",
             application = "${dubbo.application.id}",
             interfaceName = "com.hmily.dubbo.common.service.ISnowFlakeServiceApi",
-            check = false,
+            check = true,
             timeout = 1000,
             retries = 0
     )
@@ -33,15 +33,9 @@ public class TestController {
 	
 	@GetMapping("/test/longid")
 	public String testIdByLocal() {
-		String res = null;
-		for(int i = 0; i < 5; i++) {
-			Long id = SnowFlake.getId();
-			log.info("id: {}", id);
-			if (i == 0) {
-				res = id.toString();
-			}
-		}
-        return res;
+        Long id = SnowFlake.getId();
+        log.info("id: {}", id);
+        return id.toString();
 	}
 	
 	@GetMapping("/test/longid/rpc")

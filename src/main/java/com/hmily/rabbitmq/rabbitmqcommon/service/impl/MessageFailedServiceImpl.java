@@ -20,7 +20,7 @@ public class MessageFailedServiceImpl implements IMessageFailedService {
 	
 	private static final Logger log = LoggerFactory.getLogger(MessageFailedServiceImpl.class);
 
-    @Reference(version = "1.0.0",
+    @Reference(version = "${snowFlakeServiceApi.version}",
             application = "${dubbo.application.id}",
             interfaceName = "com.hmily.dubbo.common.service.ISnowFlakeServiceApi",
             check = false,
