@@ -90,6 +90,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.Message" >
     update t_mq_message_log
     <set >
@@ -127,6 +128,14 @@
       update_time = now()
     where message_id = #{messageId,jdbcType=BIGINT}
   </update>
+  
+  <update id="updateTryCount" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.Message">
+  	update t_mq_message_log 
+  		set try_count = try_count+1,
+  			next_retry = #{nextRetry,jdbcType=TIMESTAMP},
+  			update_time = now() 
+  		where message_id = #{messageId,jdbcType=BIGINT}
+  </update>
 
     <update id="changeMessageStatus" >
         update t_mq_message_log bml set bml.status = #{status, jdbcType=INTEGER}, bml.update_time = now()
@@ -141,8 +150,19 @@
         select <include refid="Base_Column_List"/>
           from t_mq_message_log m
           where m.type = #{type, jdbcType=INTEGER}
-                and m.status = #{status,jdbcType=INTEGER}
-                and  m.try_count < #{maxTryCount,jdbcType=INTEGER}
-                and m.next_retry <= sysdate()
+       			<if test="maxTryCount != null">
+       				<![CDATA[
+       					and m.try_count <= #{maxTryCount,jdbcType=INTEGER}
+       				]]>
+       			</if>
+                 <if test="status != null">
+                 	and m.status in 
+                 	<foreach collection="status" item="item" index="index" open="(" separator="," close=")">
+				        #{item}
+				    </foreach>
+                 </if>
+                 <![CDATA[
+				    and m.next_retry <= now()
+				  ]]>
     </select>
 </mapper>

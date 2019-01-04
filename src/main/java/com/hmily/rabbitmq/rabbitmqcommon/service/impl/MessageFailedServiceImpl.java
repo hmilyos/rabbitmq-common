@@ -37,9 +37,9 @@ public class MessageFailedServiceImpl implements IMessageFailedService {
 		messageFailed.setFailId(snowFlakeServiceApi.getSnowFlakeID());
 		int row = MessageFailedMapper.insertSelective(messageFailed);
 		log.info("add result row: {}, info: {}", row, messageFailed.toString());
-		if (StringUtils.equals("test_desc", messageFailed.getFailDesc())) {
-			throw  new CustomException(ResponseCode.OTHER);
-		}
+//		if (StringUtils.equals("test_desc", messageFailed.getFailDesc())) {
+//			throw  new CustomException(ResponseCode.OTHER);
+//		}
 		return row;
 	}
 }

@@ -22,7 +22,8 @@ public interface MessageMapper {
 
     int updataNextRetryTimeForNow(long messageId);
 
-    List<Message> getNotProcessingInByType(@Param("type")Integer type, @Param("maxTryCount")Integer maxTryCount, @Param("status")Integer status);
+    List<Message> getNotProcessingInByType(@Param("type")Integer type, @Param("maxTryCount")Integer maxTryCount, @Param("status")int[] status);
 
+    int updateTryCount(Message record);
 //    date_add(now(), interval - 5 minute)
 }
