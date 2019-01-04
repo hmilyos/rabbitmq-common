@@ -6,6 +6,7 @@ import com.hmily.rabbitmq.rabbitmqcommon.common.TypeEnum;
 import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
 import com.hmily.rabbitmq.rabbitmqcommon.entity.MessageFailed;
 import com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageMapper;
+import com.hmily.rabbitmq.rabbitmqcommon.producer.RabbitOrderSender;
 import com.hmily.rabbitmq.rabbitmqcommon.service.IMessageFailedService;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -27,6 +28,9 @@ public class SendMessageTask {
     @Autowired
     private IMessageFailedService messageFailedService;
 
+    @Autowired
+    private RabbitOrderSender rabbitOrderSender;
+
     @Scheduled(initialDelay = 3000, fixedDelay = 10000)
     public void reSend(){
         log.info("---------------定时任务开始---------------");
@@ -45,8 +49,13 @@ public class SendMessageTask {
 //				先改一下消息记录，保存好再发送消息
 				msg.setNextRetry(DateUtils.addMinutes(new Date(), Constants.TRY_TIMEOUT));
 				int row = messageMapper.updateTryCount(msg);
-				
-			}
+                try {
+                    rabbitOrderSender.sendOrder(msg);
+                } catch (Exception e) {
+                    log.error("sendOrder mq msg error: ", e);
+                    messageMapper.updataNextRetryTimeForNow(msg.getMessageId());
+                }
+            }
         });
     }
 }
