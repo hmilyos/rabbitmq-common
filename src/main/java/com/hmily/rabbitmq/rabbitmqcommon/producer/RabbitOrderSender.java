@@ -1,8 +1,5 @@
 package com.hmily.rabbitmq.rabbitmqcommon.producer;
 
-import com.hmily.rabbitmq.rabbitmqcommon.common.MSGStatusEnum;
-import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
-import com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import com.hmily.dubbo.common.exception.CustomException;
+import com.hmily.rabbitmq.rabbitmqcommon.common.MSGStatusEnum;
+import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
+import com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageMapper;
 
 
 @Component
@@ -39,6 +39,7 @@ public class RabbitOrderSender {
 
         CorrelationData correlationData = new CorrelationData(message.getMessageId() + "");
         rabbitTemplate.convertAndSend(exchangeName, routingKey, message, correlationData);
+//        throw new CustomException("--test--");
     }
 
     //回调函数: confirm确认
@@ -58,7 +59,9 @@ public class RabbitOrderSender {
         }
     };
 
-    //回调函数: return返回
+    //回调函数: return返回， 这里是预防消息不可达的情况，比如 MQ 里面没有对应的 exchange、queue 等情况，
+//    如果消息真的不可达，那么就要根据你实际的业务去做对应处理，比如是直接落库，记录补偿，还是放到死信队列里面，之后再进行落库
+//    这里脱开实际业务场景，不大好描述
     final RabbitTemplate.ReturnCallback returnCallback = new RabbitTemplate.ReturnCallback() {
         @Override
         public void returnedMessage(org.springframework.amqp.core.Message message, int replyCode,

@@ -53,6 +53,8 @@ public class MessageServiceImpl implements IMessageService {
         try {
             rabbitOrderSender.sendOrder(message);
         } catch (Exception e) {
+//        	因为业务已经落库了
+//        	所以 即使发送失败也不影响，因为可靠性投递，我回去再次尝试发送消息
             log.error("sendOrder mq msg error: ", e);
             messageMapper.updataNextRetryTimeForNow(message.getMessageId());
         }

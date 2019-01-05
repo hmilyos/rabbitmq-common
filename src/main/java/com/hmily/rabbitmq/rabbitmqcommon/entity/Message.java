@@ -35,8 +35,25 @@ public class Message implements Serializable {
         this.createTime = new Date();
         this.updateTime = new Date();
     }
+    
+    
 
-    public Message() {
+    public Message(Long messageId, Integer type, String message, Integer tryCount, Integer status, Date nextRetry,
+			Date createTime, Date updateTime) {
+		super();
+		this.messageId = messageId;
+		this.type = type;
+		this.message = message;
+		this.tryCount = tryCount;
+		this.status = status;
+		this.nextRetry = nextRetry;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+	}
+
+
+
+	public Message() {
         super();
     }
 
