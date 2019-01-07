@@ -32,15 +32,15 @@
     <include refid="Base_Column_List" />
     from t_mq_message_log
     where message_id = #{messageId,jdbcType=BIGINT}
-  </select>queryAll
+  </select>
    <select id="selectFail" resultMap="BaseAndFailResultMap" parameterType="java.lang.Integer">
    		select * from t_mq_message_log l, t_mq_message_failed f
    			where l.message_id = f.message_id and l.status = #{status,jdbcType=INTEGER}
    </select>
    
-   <select id="selectFail" resultMap="BaseAndFailResultMap">
-   		select * from t_mq_message_log l, t_mq_message_failed f
-   			where l.message_id = f.message_id order by create_time desc
+   <select id="queryAll" resultMap="BaseAndFailResultMap">
+   		select * from t_mq_message_log l left join t_mq_message_failed f
+   			on l.message_id = f.message_id order by l.create_time desc
    </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

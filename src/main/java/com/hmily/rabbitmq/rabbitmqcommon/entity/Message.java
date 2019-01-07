@@ -67,6 +67,8 @@ public class Message implements Serializable {
 		this.messageFailed = messageFailed;
 	}
 
+
+
 	public Message() {
         super();
     }

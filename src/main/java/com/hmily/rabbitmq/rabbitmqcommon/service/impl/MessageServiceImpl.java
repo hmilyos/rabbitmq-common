@@ -9,6 +9,7 @@ import com.hmily.rabbitmq.rabbitmqcommon.common.MSGStatusEnum;
 import com.hmily.rabbitmq.rabbitmqcommon.common.TypeEnum;
 import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
 import com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageMapper;
+import com.hmily.rabbitmq.rabbitmqcommon.mapper.OrderMapper;
 import com.hmily.rabbitmq.rabbitmqcommon.producer.RabbitOrderSender;
 import com.hmily.rabbitmq.rabbitmqcommon.service.IMessageService;
 import org.apache.commons.lang3.time.DateUtils;
@@ -39,6 +40,9 @@ public class MessageServiceImpl implements IMessageService {
     @Autowired
     private RabbitOrderSender rabbitOrderSender;
 
+    @Autowired
+    private OrderMapper orderMapper;
+
     @Override
     public ServerResponse createOrder(long userId) {
 //        首先是针对业务逻辑，进行下单的业务，保存到数据库后
@@ -64,8 +68,13 @@ public class MessageServiceImpl implements IMessageService {
 
 	@Override
 	public List queryAll() {
-		return messageMapper.queryAll();
+        return orderMapper.queryAll();
 	}
+
+    @Override
+    public List<Message> queryAllMsg() {
+		return messageMapper.queryAll();
+    }
 
 	@Override
 	public List<Message> selectFail() {

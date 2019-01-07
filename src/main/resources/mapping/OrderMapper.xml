@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmily.rabbitmq.rabbitmqcommon.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hmily.rabbitmq.rabbitmqcommon.entity.Order" >
+    <constructor >
+      <idArg column="order_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="order_no" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="user_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="shipping_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="payment" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="payment_type" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="postage" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="payment_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="send_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="end_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="close_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+
+    <resultMap id="BaseAndItemResultMap" type="com.hmily.rabbitmq.rabbitmqcommon.entity.Order" >
+        <id property="orderId" column="order_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="shippingId" column="shipping_id"/>
+        <result property="payment" column="payment"/>
+        <result property="paymentType" column="payment_type"/>
+        <result property="postage" column="postage"/>
+        <result property="status" column="status"/>
+        <result property="paymentTime" column="payment_time"/>
+        <result property="closeTime" column="close_time"/>
+        <result property="sendTime" column="send_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="orderItems" column="order_no" select="com.hmily.rabbitmq.rabbitmqcommon.mapper.OrderItemMapper.selectByOrderNo"></association>
+    </resultMap>
+
+  <sql id="Base_Column_List" >
+    order_id, order_no, user_id, shipping_id, payment, payment_type, postage, status, 
+    payment_time, send_time, end_time, close_time, create_time, update_time
+  </sql>
+    <select id="queryAll" resultMap="BaseAndItemResultMap">
+        select *  from hmily_order o left join hmily_order_item i  on o.order_no = i.order_no order by o.create_time desc
+    </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hmily_order
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hmily_order
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.Order" >
+    insert into hmily_order (order_id, order_no, user_id, 
+      shipping_id, payment, payment_type, 
+      postage, status, payment_time, 
+      send_time, end_time, close_time, 
+      create_time, update_time)
+    values (#{orderId,jdbcType=BIGINT}, #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{shippingId,jdbcType=BIGINT}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
+      #{postage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.Order" >
+    insert into hmily_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="shippingId != null" >
+        shipping_id,
+      </if>
+      <if test="payment != null" >
+        payment,
+      </if>
+      <if test="paymentType != null" >
+        payment_type,
+      </if>
+      <if test="postage != null" >
+        postage,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="paymentTime != null" >
+        payment_time,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="closeTime != null" >
+        close_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="shippingId != null" >
+        #{shippingId,jdbcType=BIGINT},
+      </if>
+      <if test="payment != null" >
+        #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="postage != null" >
+        #{postage,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTime != null" >
+        #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null" >
+        #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.Order" >
+    update hmily_order
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="shippingId != null" >
+        shipping_id = #{shippingId,jdbcType=BIGINT},
+      </if>
+      <if test="payment != null" >
+        payment = #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentType != null" >
+        payment_type = #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="postage != null" >
+        postage = #{postage,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTime != null" >
+        payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null" >
+        close_time = #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.Order" >
+    update hmily_order
+    set order_no = #{orderNo,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      shipping_id = #{shippingId,jdbcType=BIGINT},
+      payment = #{payment,jdbcType=DECIMAL},
+      payment_type = #{paymentType,jdbcType=INTEGER},
+      postage = #{postage,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      close_time = #{closeTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+</mapper>

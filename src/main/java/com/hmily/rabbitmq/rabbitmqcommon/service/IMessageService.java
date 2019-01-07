@@ -15,4 +15,6 @@ public interface IMessageService {
     List queryAll();
     
     List<Message> selectFail();
+
+    List<Message> queryAllMsg();
 }

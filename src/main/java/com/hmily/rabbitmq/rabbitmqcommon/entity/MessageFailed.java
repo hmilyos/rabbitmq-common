@@ -21,6 +21,15 @@ public class MessageFailed implements Serializable {
 
     private Date updateTime;
 
+    public MessageFailed(Long failId, Long messageId, String failTitle, String failDesc, Date createTime, Date updateTime) {
+        this.failId = failId;
+        this.messageId = messageId;
+        this.failTitle = failTitle;
+        this.failDesc = failDesc;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     public MessageFailed(Long messageId, String failTitle, String failDesc) {
         this.messageId = messageId;
         this.failTitle = failTitle;

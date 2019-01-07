@@ -26,4 +26,9 @@ public class OrderController {
     public ServerResponse queryAll(){
     	return ServerResponse.createBySuccess(messageService.queryAll());
     }
+
+    @GetMapping("/queryAllMsg")
+    public ServerResponse queryAllMsg(){
+        return ServerResponse.createBySuccess(messageService.queryAllMsg());
+    }
 }

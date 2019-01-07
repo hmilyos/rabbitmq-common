@@ -42,7 +42,7 @@ public class RabbitOrderReceiver {
                                Channel channel,
                                @Headers Map<String, Object> headers) throws Exception {
         log.info("-----------------RabbitOrderReceiver---------------------");
-        channel.basicQos(0, 1, false);
+//        channel.basicQos(0, 1, false);
         log.info("消费端 order msg: {} ",  msg.toString());
         msg.setStatus(MSGStatusEnum.PROCESSING_IN.getCode());
         int row = messageMapper.updateByPrimaryKeySelective(msg);

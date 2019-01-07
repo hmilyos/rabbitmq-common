@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmily.rabbitmq.rabbitmqcommon.mapper.OrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.hmily.rabbitmq.rabbitmqcommon.entity.OrderItem" >
+    <constructor >
+      <idArg column="order_item_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="user_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="order_no" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="product_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="product_image" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="current_unit_price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="quantity" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="total_price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_item_id, user_id, order_no, product_id, product_name, product_image, current_unit_price, 
+    quantity, total_price, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hmily_order_item
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectByOrderNo"  resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from hmily_order_item
+        where order_no = #{orderNo,jdbcType=BIGINT} order by create_time desc
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hmily_order_item
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.OrderItem" >
+    insert into hmily_order_item (order_item_id, user_id, order_no, 
+      product_id, product_name, product_image, 
+      current_unit_price, quantity, total_price, 
+      create_time, update_time)
+    values (#{orderItemId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderNo,jdbcType=BIGINT}, 
+      #{productId,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR}, #{productImage,jdbcType=VARCHAR}, 
+      #{currentUnitPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.OrderItem" >
+    insert into hmily_order_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderItemId != null" >
+        order_item_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="productImage != null" >
+        product_image,
+      </if>
+      <if test="currentUnitPrice != null" >
+        current_unit_price,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productImage != null" >
+        #{productImage,jdbcType=VARCHAR},
+      </if>
+      <if test="currentUnitPrice != null" >
+        #{currentUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.OrderItem" >
+    update hmily_order_item
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productImage != null" >
+        product_image = #{productImage,jdbcType=VARCHAR},
+      </if>
+      <if test="currentUnitPrice != null" >
+        current_unit_price = #{currentUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hmily.rabbitmq.rabbitmqcommon.entity.OrderItem" >
+    update hmily_order_item
+    set user_id = #{userId,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_image = #{productImage,jdbcType=VARCHAR},
+      current_unit_price = #{currentUnitPrice,jdbcType=DECIMAL},
+      quantity = #{quantity,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where order_item_id = #{orderItemId,jdbcType=BIGINT}
+  </update>
+</mapper>
