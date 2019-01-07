@@ -16,4 +16,14 @@ public class OrderController {
     public ServerResponse createOrder(long userId){
         return messageService.createOrder(userId);
     }
+    
+    @GetMapping("/selectFail")
+    public ServerResponse selectFail(){
+    	return ServerResponse.createBySuccess(messageService.selectFail());
+    }
+    
+    @GetMapping("/queryAll")
+    public ServerResponse queryAll(){
+    	return ServerResponse.createBySuccess(messageService.queryAll());
+    }
 }

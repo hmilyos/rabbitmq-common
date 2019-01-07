@@ -10,6 +10,8 @@ public interface MessageFailedMapper {
     int insertSelective(MessageFailed record);
 
     MessageFailed selectByPrimaryKey(Long failId);
+    
+    MessageFailed selectByMsgId(Long msgId);
 
     int updateByPrimaryKeySelective(MessageFailed record);
 

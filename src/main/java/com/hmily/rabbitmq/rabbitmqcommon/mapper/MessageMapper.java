@@ -25,5 +25,10 @@ public interface MessageMapper {
     List<Message> getNotProcessingInByType(@Param("type")Integer type, @Param("maxTryCount")Integer maxTryCount, @Param("status")int[] status);
 
     int updateTryCount(Message record);
+    
+    List<Message> selectFail(int status);
+    
+    List<Message> queryAll();
+    
 //    date_add(now(), interval - 5 minute)
 }

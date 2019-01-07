@@ -13,6 +13,17 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+  <resultMap id="BaseAndFailResultMap" type="com.hmily.rabbitmq.rabbitmqcommon.entity.Message" >
+      <id property="messageId" column="message_id"/>
+	  <result property="type" column="type"/>
+	  <result property="message" column="message"/>
+	  <result property="tryCount" column="try_count"/>
+	  <result property="status" column="status"/>
+	  <result property="nextRetry" column="next_retry"/>
+	  <result property="createTime" column="create_time"/>
+	  <result property="updateTime" column="update_time"/>
+      <association property="messageFailed" column="message_id" select="com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageFailedMapper.selectByMsgId"></association>
+  </resultMap>
   <sql id="Base_Column_List" >
     message_id, type, message, try_count, status, next_retry, create_time, update_time
   </sql>
@@ -21,7 +32,16 @@
     <include refid="Base_Column_List" />
     from t_mq_message_log
     where message_id = #{messageId,jdbcType=BIGINT}
-  </select>
+  </select>queryAll
+   <select id="selectFail" resultMap="BaseAndFailResultMap" parameterType="java.lang.Integer">
+   		select * from t_mq_message_log l, t_mq_message_failed f
+   			where l.message_id = f.message_id and l.status = #{status,jdbcType=INTEGER}
+   </select>
+   
+   <select id="selectFail" resultMap="BaseAndFailResultMap">
+   		select * from t_mq_message_log l, t_mq_message_failed f
+   			where l.message_id = f.message_id order by create_time desc
+   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_mq_message_log

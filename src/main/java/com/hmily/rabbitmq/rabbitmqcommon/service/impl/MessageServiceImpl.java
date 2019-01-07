@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MessageServiceImpl implements IMessageService {
@@ -60,4 +61,14 @@ public class MessageServiceImpl implements IMessageService {
         }
         return ServerResponse.createBySuccess();
     }
+
+	@Override
+	public List queryAll() {
+		return messageMapper.queryAll();
+	}
+
+	@Override
+	public List<Message> selectFail() {
+		return messageMapper.selectFail(MSGStatusEnum.PROCESSING_FAILED.getCode());
+	}
 }

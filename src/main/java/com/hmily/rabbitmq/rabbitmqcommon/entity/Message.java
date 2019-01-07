@@ -24,6 +24,8 @@ public class Message implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+    
+    private MessageFailed messageFailed;
 
     public Message(Long messageId, Integer type, String message, Integer tryCount, Integer status, Date nextRetry) {
         this.messageId = messageId;
@@ -51,13 +53,37 @@ public class Message implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-
+	public Message(Long messageId, Integer type, String message, Integer tryCount, Integer status, Date nextRetry,
+			Date createTime, Date updateTime, MessageFailed messageFailed) {
+		super();
+		this.messageId = messageId;
+		this.type = type;
+		this.message = message;
+		this.tryCount = tryCount;
+		this.status = status;
+		this.nextRetry = nextRetry;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+		this.messageFailed = messageFailed;
+	}
 
 	public Message() {
         super();
     }
 
-    public Long getMessageId() {
+    public MessageFailed getMessageFailed() {
+		return messageFailed;
+	}
+
+
+
+	public void setMessageFailed(MessageFailed messageFailed) {
+		this.messageFailed = messageFailed;
+	}
+
+
+
+	public Long getMessageId() {
         return messageId;
     }
 
@@ -121,12 +147,15 @@ public class Message implements Serializable {
         this.updateTime = updateTime;
     }
 
+
+
 	@Override
 	public String toString() {
 		return "Message [messageId=" + messageId + ", type=" + type + ", message=" + message + ", tryCount=" + tryCount
 				+ ", status=" + status + ", nextRetry=" + nextRetry + ", createTime=" + createTime + ", updateTime="
-				+ updateTime + "]";
+				+ updateTime + ", messageFailed=" + messageFailed + "]";
 	}
-    
-    
+
+
+
 }
