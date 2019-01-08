@@ -20,7 +20,7 @@ public class TestController {
     @Reference(version = "${snowFlakeServiceApi.version}",
             application = "${dubbo.application.id}",
             interfaceName = "com.hmily.dubbo.common.service.ISnowFlakeServiceApi",
-            check = true,
+            check = false,
             timeout = 1000,
             retries = 0
     )

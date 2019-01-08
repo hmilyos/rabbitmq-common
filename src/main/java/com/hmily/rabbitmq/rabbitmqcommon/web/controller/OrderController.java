@@ -1,5 +1,6 @@
 package com.hmily.rabbitmq.rabbitmqcommon.web.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.hmily.dubbo.common.util.ServerResponse;
 import com.hmily.rabbitmq.rabbitmqcommon.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class OrderController {
     @GetMapping("/queryAllMsg")
     public ServerResponse queryAllMsg(){
         return ServerResponse.createBySuccess(messageService.queryAllMsg());
+    }
+    
+    @GetMapping("/queryAllByPage")
+    public ServerResponse<PageInfo> queryAllByPage(int pageNum, int pageSize) {
+    	return messageService.queryAllByPage(pageNum, pageSize);
     }
 }

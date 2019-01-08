@@ -8,6 +8,7 @@ import com.hmily.rabbitmq.rabbitmqcommon.common.Constants;
 import com.hmily.rabbitmq.rabbitmqcommon.common.MSGStatusEnum;
 import com.hmily.rabbitmq.rabbitmqcommon.common.TypeEnum;
 import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
+import com.hmily.rabbitmq.rabbitmqcommon.entity.Order;
 import com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageMapper;
 import com.hmily.rabbitmq.rabbitmqcommon.mapper.OrderMapper;
 import com.hmily.rabbitmq.rabbitmqcommon.producer.RabbitOrderSender;
@@ -17,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import java.util.Date;
 import java.util.List;
@@ -29,7 +32,7 @@ public class MessageServiceImpl implements IMessageService {
     @Reference(version = "${snowFlakeServiceApi.version}",
             application = "${dubbo.application.id}",
             interfaceName = "com.hmily.dubbo.common.service.ISnowFlakeServiceApi",
-            check = true,
+            check = false,
             timeout = 1000,
             retries = 0
     )
@@ -80,4 +83,13 @@ public class MessageServiceImpl implements IMessageService {
 	public List<Message> selectFail() {
 		return messageMapper.selectFail(MSGStatusEnum.PROCESSING_FAILED.getCode());
 	}
+	
+	@Override
+    public ServerResponse<PageInfo> queryAllByPage(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Order> orders = orderMapper.queryAll();
+        PageInfo pageResult = new PageInfo(orders);
+        pageResult.setList(orders);
+        return ServerResponse.createBySuccess(pageResult);
+    }
 }
