@@ -42,12 +42,10 @@ public class RabbitOrderReceiver {
                                Channel channel,
                                @Headers Map<String, Object> headers) throws Exception {
         log.info("-----------------RabbitOrderReceiver---------------------");
-//        channel.basicQos(0, 1, false);
         log.info("消费端 order msg: {} ",  msg.toString());
         msg.setStatus(MSGStatusEnum.PROCESSING_IN.getCode());
         int row = messageMapper.updateByPrimaryKeySelective(msg);
         if (row != 0) {
-        	Thread.sleep(2000L);
             Long deliveryTag = (Long)headers.get(AmqpHeaders.DELIVERY_TAG);
             //手工ACK
             channel.basicAck(deliveryTag, false);
