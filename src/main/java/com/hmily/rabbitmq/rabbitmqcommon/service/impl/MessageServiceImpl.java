@@ -43,9 +43,6 @@ public class MessageServiceImpl implements IMessageService {
     @Autowired
     private RabbitOrderSender rabbitOrderSender;
 
-    @Autowired
-    private OrderMapper orderMapper;
-
     @Override
     public ServerResponse createOrder(long userId) {
 //        首先是针对业务逻辑，进行下单的业务，保存到数据库后
@@ -69,27 +66,5 @@ public class MessageServiceImpl implements IMessageService {
         return ServerResponse.createBySuccess();
     }
 
-	@Override
-	public List queryAll() {
-        return orderMapper.queryAll();
-	}
 
-    @Override
-    public List<Message> queryAllMsg() {
-		return messageMapper.queryAll();
-    }
-
-	@Override
-	public List<Message> selectFail() {
-		return messageMapper.selectFail(MSGStatusEnum.PROCESSING_FAILED.getCode());
-	}
-	
-	@Override
-    public ServerResponse<PageInfo> queryAllByPage(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Order> orders = orderMapper.queryAll();
-        PageInfo pageResult = new PageInfo(orders);
-        pageResult.setList(orders);
-        return ServerResponse.createBySuccess(pageResult);
-    }
 }
