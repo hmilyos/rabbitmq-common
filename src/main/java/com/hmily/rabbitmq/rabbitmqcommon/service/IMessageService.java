@@ -1,7 +1,8 @@
 package com.hmily.rabbitmq.rabbitmqcommon.service;
 
-import com.hmily.dubbo.common.util.ServerResponse;
+import com.github.pagehelper.PageInfo;
 import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
+import com.hmily.dubbo.common.util.ServerResponse;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface IMessageService {
     List<Message> selectFail();
 
     List<Message> queryAllMsg();
+    
+    ServerResponse<PageInfo> queryAllByPage(int pageNum, int pageSize);
 }
