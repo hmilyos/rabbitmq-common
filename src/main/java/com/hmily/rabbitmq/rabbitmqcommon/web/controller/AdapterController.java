@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hmily.dubbo.common.util.ServerResponse;
 import com.hmily.rabbitmq.rabbitmqcommon.adapter.defaultt.DefaultAdapterService;
+import com.hmily.rabbitmq.rabbitmqcommon.adapter.manymethod.ManyMethodAdapterService;
 import com.hmily.rabbitmq.rabbitmqcommon.adapter.mymethod.MyMethodAdapterService;
+import com.hmily.rabbitmq.rabbitmqcommon.adapter.str.StringAdapterService;
 
 @RestController
 public class AdapterController {
@@ -26,6 +28,23 @@ public class AdapterController {
 	@PostMapping("/adapter/myMethod")
 	public ServerResponse myMethodAdapter(String msg) {
 		myMethodAdapterService.sendMessage(msg);
+		return ServerResponse.createBySuccess();
+	}
+	
+	@Autowired
+	private StringAdapterService stringAdapterService;
+	
+	@PostMapping("/adapter/string")
+	public ServerResponse stringAdapter(String msg) {
+		stringAdapterService.sendMessage(msg);
+		return ServerResponse.createBySuccess();
+	}
+	
+	@Autowired
+	private ManyMethodAdapterService manyMethodAdapterService;
+	@PostMapping("/adapter/manyMethod")
+	public ServerResponse manyMethod(String msg) {
+		manyMethodAdapterService.sendMessage(msg);
 		return ServerResponse.createBySuccess();
 	}
 
