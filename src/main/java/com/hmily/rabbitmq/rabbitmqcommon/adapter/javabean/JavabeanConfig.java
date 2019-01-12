@@ -1,0 +1,68 @@
+package com.hmily.rabbitmq.rabbitmqcommon.adapter.javabean;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.ConsumerTagStrategy;
+import org.springframework.amqp.support.converter.DefaultJackson2JavaTypeMapper;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.hmily.rabbitmq.rabbitmqcommon.adapter.defaultt.DefaultConfig;
+
+@Configuration
+public class JavabeanConfig extends DefaultConfig {
+
+	public static final String JAVA_QUEUE_NAME = "test.adapter.java.bean";
+	public static final String JAVA_ROUTING_KEY = "adapter.java.bean";
+
+//    声明 队列
+	@Bean
+	public Queue javaQueue() {
+		return new Queue(JAVA_QUEUE_NAME, true); // 队列持久
+	}
+
+//    交换机和队列绑定
+	@Bean
+	public Binding bindingJavaQueue() {
+		return BindingBuilder.bind(javaQueue()).to(super.adapterExchange()).with(JAVA_ROUTING_KEY);
+	}
+
+	@Bean
+	public SimpleMessageListenerContainer javaBeanMessageContainer(ConnectionFactory connectionFactory) {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+		container.setQueues(javaQueue()); // 监听的队列
+		container.setConcurrentConsumers(1); // 当前的消费者数量
+		container.setMaxConcurrentConsumers(5); // 最大的消费者数量
+		container.setDefaultRequeueRejected(false); // 是否重回队列
+
+		container.setAcknowledgeMode(AcknowledgeMode.AUTO); // 签收模式
+		container.setExposeListenerChannel(true);
+		container.setConsumerTagStrategy(new ConsumerTagStrategy() { // 消费端的标签策略
+			@Override
+			public String createConsumerTag(String queue) {
+				return queue + "_" + UUID.randomUUID().toString();
+			}
+		});
+		// 4 DefaultJackson2JavaTypeMapper & Jackson2JsonMessageConverter 支持java对象转换
+		MessageListenerAdapter adapter = new MessageListenerAdapter(new JavaBeanMsgDelegate());
+		adapter.setDefaultListenerMethod("consumeMessage");
+		Jackson2JsonMessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
+		DefaultJackson2JavaTypeMapper javaTypeMapper = new DefaultJackson2JavaTypeMapper();
+		jackson2JsonMessageConverter.setJavaTypeMapper(javaTypeMapper);
+		adapter.setMessageConverter(jackson2JsonMessageConverter);
+		container.setMessageListener(adapter);
+		return container;
+	}
+
+}
