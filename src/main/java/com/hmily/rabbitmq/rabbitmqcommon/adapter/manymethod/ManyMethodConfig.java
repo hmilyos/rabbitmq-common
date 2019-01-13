@@ -48,7 +48,7 @@ public class ManyMethodConfig extends DefaultConfig {
 	}
 
 	@Bean
-	public SimpleMessageListenerContainer myMethodMessageContainer(ConnectionFactory connectionFactory) {
+	public SimpleMessageListenerContainer manyMethodMessageContainer(ConnectionFactory connectionFactory) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
 		container.setQueues(manyMethodQueue1(), manyMethodQueue2()); // 监听的队列
 		container.setConcurrentConsumers(1); // 当前的消费者数量
