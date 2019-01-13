@@ -1,5 +1,6 @@
 package com.hmily.rabbitmq.rabbitmqcommon.web.controller;
 
+import com.hmily.rabbitmq.rabbitmqcommon.adapter.file.FileAdapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -93,5 +94,20 @@ public class AdapterController {
 		manyJavaBeanAdapterService.sendMessage(order, fail);
 		return ServerResponse.createBySuccess();
 	}
-	
+
+	@Autowired
+    private FileAdapterService fileAdapterService;
+    @PostMapping("/adapter/file/image")
+    public ServerResponse imageFile(String fileName) {
+        fileAdapterService.sendImageMessage(fileName);
+        return ServerResponse.createBySuccess();
+    }
+
+    @PostMapping("/adapter/file/pdf")
+    public ServerResponse pDfFile(String fileName) {
+        fileAdapterService.sendPDFMessage(fileName);
+        return ServerResponse.createBySuccess();
+    }
+
+
 }
