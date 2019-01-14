@@ -49,11 +49,11 @@ public class FileConfig extends DefaultConfig {
     //    交换机和队列绑定
     @Bean
     public Binding bindingPDFFileQueue() {
-        return BindingBuilder.bind(imageFileQueue()).to(super.adapterExchange()).with(PDF_FILE_ROUTING_KEY);
+        return BindingBuilder.bind(filePDFQueue()).to(super.adapterExchange()).with(PDF_FILE_ROUTING_KEY);
     }
 
 	@Bean
-	public SimpleMessageListenerContainer javaBeanMessageContainer(ConnectionFactory connectionFactory) {
+	public SimpleMessageListenerContainer fileMessageContainer(ConnectionFactory connectionFactory) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
 		container.setQueues(imageFileQueue(), filePDFQueue()); // 监听的队列
 		container.setConcurrentConsumers(1); // 当前的消费者数量

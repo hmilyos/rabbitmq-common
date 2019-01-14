@@ -1,10 +1,14 @@
 package com.hmily.rabbitmq.rabbitmqcommon.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
+
+    private static final long serialVersionUID = -4067301097333717848L;
+
     private Long orderId;
 
     private Long orderNo;
@@ -70,6 +74,10 @@ public class Order {
         this.orderItems = orderItems;
     }
 
+    public Order() {
+        super();
+    }
+
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
@@ -78,9 +86,7 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public Order() {
-        super();
-    }
+
 
     public Long getOrderId() {
         return orderId;

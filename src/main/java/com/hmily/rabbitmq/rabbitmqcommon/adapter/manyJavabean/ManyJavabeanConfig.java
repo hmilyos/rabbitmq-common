@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.hmily.rabbitmq.rabbitmqcommon.config.jackson2.EnableAllJackson2JavaTypeMapper;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -58,7 +59,7 @@ public class ManyJavabeanConfig extends DefaultConfig {
       MessageListenerAdapter adapter = new MessageListenerAdapter(new ManyJavaBeanMsgDelegate());
       adapter.setDefaultListenerMethod("consumeMessage");
       Jackson2JsonMessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
-      DefaultJackson2JavaTypeMapper javaTypeMapper = new DefaultJackson2JavaTypeMapper();
+      DefaultJackson2JavaTypeMapper javaTypeMapper = new EnableAllJackson2JavaTypeMapper();
 
       Map<String, Class<?>> idClassMapping = new HashMap<String, Class<?>>();
       idClassMapping.put("order", com.hmily.rabbitmq.rabbitmqcommon.entity.Order.class);

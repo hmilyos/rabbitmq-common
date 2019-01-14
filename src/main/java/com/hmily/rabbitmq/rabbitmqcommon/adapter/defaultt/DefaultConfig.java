@@ -50,7 +50,7 @@ public class DefaultConfig {
 		container.setMaxConcurrentConsumers(5); // 最大的消费者数量
 		container.setDefaultRequeueRejected(false); // 是否重回队列
 
-		container.setAcknowledgeMode(AcknowledgeMode.AUTO); // 签收模式
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); // 签收模式
 		container.setExposeListenerChannel(true);
 		container.setConsumerTagStrategy(new ConsumerTagStrategy() { // 消费端的标签策略
 			@Override
@@ -69,7 +69,7 @@ public class DefaultConfig {
                 log.info("----------消费者: {}", msg);
                 MessageProperties properties = message.getMessageProperties();
                 log.info("----------消费者 properties: {}", properties);
-//                channel.basicAck(properties.getDeliveryTag(), false);
+                channel.basicAck(properties.getDeliveryTag(), false);
             }
         });
 		return container;

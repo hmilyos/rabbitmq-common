@@ -1,9 +1,13 @@
 package com.hmily.rabbitmq.rabbitmqcommon.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Product {
+public class Product implements Serializable {
+
+    private static final long serialVersionUID = -4067301097332717848L;
+
     private Long productId;
 
     private Long categoryId;
@@ -42,6 +46,8 @@ public class Product {
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
+
+
 
     public Product() {
         super();

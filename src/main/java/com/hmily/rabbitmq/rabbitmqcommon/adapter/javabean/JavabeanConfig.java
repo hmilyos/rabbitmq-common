@@ -1,20 +1,14 @@
 package com.hmily.rabbitmq.rabbitmqcommon.adapter.javabean;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.amqp.core.AcknowledgeMode;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import com.hmily.rabbitmq.rabbitmqcommon.config.jackson2.EnableAllJackson2JavaTypeMapper;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.ConsumerTagStrategy;
-import org.springframework.amqp.support.converter.DefaultJackson2JavaTypeMapper;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -58,7 +52,7 @@ public class JavabeanConfig extends DefaultConfig {
 		MessageListenerAdapter adapter = new MessageListenerAdapter(new JavaBeanMsgDelegate());
 		adapter.setDefaultListenerMethod("consumeMessage");
 		Jackson2JsonMessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
-		DefaultJackson2JavaTypeMapper javaTypeMapper = new DefaultJackson2JavaTypeMapper();
+		DefaultJackson2JavaTypeMapper javaTypeMapper = new EnableAllJackson2JavaTypeMapper();
 		jackson2JsonMessageConverter.setJavaTypeMapper(javaTypeMapper);
 		adapter.setMessageConverter(jackson2JsonMessageConverter);
 		container.setMessageListener(adapter);

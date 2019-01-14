@@ -1,9 +1,12 @@
 package com.hmily.rabbitmq.rabbitmqcommon.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class OrderItem {
+public class OrderItem implements Serializable {
+    private static final long serialVersionUID = -4067301097333717845L;
+
     private Long orderItemId;
 
     private Long userId;
