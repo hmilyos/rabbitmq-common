@@ -26,6 +26,16 @@ public class TestController {
     )
     private ISnowFlakeServiceApi snowFlakeServiceApi;
 
+
+    @GetMapping("/test/longid/rpc")
+    public String testIdByRPC() {
+        Long id = snowFlakeServiceApi.getSnowFlakeID();
+        log.info("id: {}", id);
+        return id.toString();
+
+    }
+
+
 	@GetMapping("/test")
 	public String test() {
 		return "hello";
@@ -38,13 +48,7 @@ public class TestController {
         return id.toString();
 	}
 	
-	@GetMapping("/test/longid/rpc")
-	public String testIdByRPC() {
-        Long id = snowFlakeServiceApi.getSnowFlakeID();
-        log.info("id: {}", id);
-        return id.toString();
 
-	}
 	
 	@Autowired
 	private IMessageFailedService messageFailedService;
