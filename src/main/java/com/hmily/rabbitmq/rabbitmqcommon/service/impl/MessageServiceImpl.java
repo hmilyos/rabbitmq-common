@@ -1,16 +1,12 @@
 package com.hmily.rabbitmq.rabbitmqcommon.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.hmily.dubbo.common.exception.CustomException;
-import com.hmily.dubbo.common.service.ISnowFlakeServiceApi;
 import com.hmily.dubbo.common.util.ServerResponse;
 import com.hmily.rabbitmq.rabbitmqcommon.common.Constants;
 import com.hmily.rabbitmq.rabbitmqcommon.common.MSGStatusEnum;
 import com.hmily.rabbitmq.rabbitmqcommon.common.TypeEnum;
 import com.hmily.rabbitmq.rabbitmqcommon.entity.Message;
-import com.hmily.rabbitmq.rabbitmqcommon.entity.Order;
 import com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageMapper;
-import com.hmily.rabbitmq.rabbitmqcommon.mapper.OrderMapper;
 import com.hmily.rabbitmq.rabbitmqcommon.producer.RabbitOrderSender;
 import com.hmily.rabbitmq.rabbitmqcommon.service.IMessageService;
 import com.hmily.rabbitmq.rabbitmqcommon.service.ISnowFlakeService;
@@ -19,11 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class MessageServiceImpl implements IMessageService {
@@ -37,9 +29,6 @@ public class MessageServiceImpl implements IMessageService {
     private MessageMapper messageMapper;
     @Autowired
     private RabbitOrderSender rabbitOrderSender;
-
-    @Autowired
-    private OrderMapper orderMapper;
 
     @Override
     public ServerResponse createOrder(long userId) {
@@ -64,27 +53,4 @@ public class MessageServiceImpl implements IMessageService {
         return ServerResponse.createBySuccess();
     }
 
-	@Override
-	public List queryAll() {
-        return orderMapper.queryAll();
-	}
-
-    @Override
-    public List<Message> queryAllMsg() {
-		return messageMapper.queryAll();
-    }
-
-	@Override
-	public List<Message> selectFail() {
-		return messageMapper.selectFail(MSGStatusEnum.PROCESSING_FAILED.getCode());
-	}
-	
-	@Override
-    public ServerResponse<PageInfo> queryAllByPage(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Order> orders = orderMapper.queryAll();
-        PageInfo pageResult = new PageInfo(orders);
-        pageResult.setList(orders);
-        return ServerResponse.createBySuccess(pageResult);
-    }
 }

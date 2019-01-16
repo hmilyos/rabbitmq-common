@@ -31,7 +31,7 @@ public class SendMessageTask {
     @Autowired
     private RabbitOrderSender rabbitOrderSender;
 
-//    @Scheduled(initialDelay = 3000, fixedDelay = 10000)
+    @Scheduled(initialDelay = 3000, fixedDelay = 10000)
     public void reSend(){
         log.info("---------------定时任务开始---------------");
         List<Message> msgs = messageMapper.getNotProcessingInByType(TypeEnum.CREATE_ORDER.getCode(), null, 

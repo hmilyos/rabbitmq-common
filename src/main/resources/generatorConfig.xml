@@ -21,7 +21,7 @@
         <!--jdbc的数据库连接 -->
         <jdbcConnection
                 driverClass="${spring.datasource.driver-class-name}"
-                connectionURL="jdbc:mysql://120.79.151.179:3306/rabbitmq_common?characterEncoding=UTF-8"
+                connectionURL="${spring.datasource.url}"
                 userId="${spring.datasource.username}"
                 password="${spring.datasource.password}">
         </jdbcConnection>
@@ -67,30 +67,13 @@
 
 
 
-        <!--<table tableName="t_mq_message_failed" domainObjectName="MessageFailed" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
-            <!--<columnOverride column="fail_desc" jdbcType="VARCHAR" />-->
-        <!--</table>-->
-
-        <!--<table tableName="t_mq_message_log" domainObjectName="Message" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
-            <!--<columnOverride column="message" jdbcType="VARCHAR" />-->
-        <!--</table>-->
-
-        <table tableName="hmily_product" domainObjectName="Product" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <columnOverride column="detail" jdbcType="VARCHAR" />
-            <columnOverride column="sub_images" jdbcType="VARCHAR" />
+        <table tableName="t_mq_message_failed" domainObjectName="MessageFailed" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="fail_desc" jdbcType="VARCHAR" />
         </table>
-        <table tableName="hmily_order" domainObjectName="Order" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="hmily_order_item" domainObjectName="OrderItem" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 
-        <!--<table tableName="hmily_shipping" domainObjectName="Shipping" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="hmily_cart" domainObjectName="Cart" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="hmily_cart_item" domainObjectName="CartItem" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="hmily_category" domainObjectName="Category" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-         <!--<table tableName="hmily_pay_info" domainObjectName="PayInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="hmily_user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <table tableName="t_mq_message_log" domainObjectName="Message" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="message" jdbcType="VARCHAR" />
+        </table>
 
-
-
-        <!-- geelynote mybatis插件的搭建 -->
     </context>
 </generatorConfiguration>

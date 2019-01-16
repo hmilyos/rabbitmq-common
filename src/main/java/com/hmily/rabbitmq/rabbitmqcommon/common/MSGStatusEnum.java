@@ -1,7 +1,7 @@
 package com.hmily.rabbitmq.rabbitmqcommon.common;
 
 public enum MSGStatusEnum{
-    //    	 消息投递状态  0 投递中 1 投递成功   2 投递失败  3"处理中"  4"处理完成"  5"处理失败"
+    //    	 消息投递状态
     SENDING(0, "投递中"),
     SEND_SUCCESS(1, "投递成功"),
     SEND_FAILURE(2, "投递失败"),
