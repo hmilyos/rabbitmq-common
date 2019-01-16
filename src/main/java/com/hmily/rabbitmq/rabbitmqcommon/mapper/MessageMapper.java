@@ -18,11 +18,11 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
 
-    void changeMessageStatus(@Param("messageId")long messageId, @Param("status")int status);
+    void changeMessageStatus(@Param("messageId") long messageId, @Param("status") int status);
 
     int updataNextRetryTimeForNow(long messageId);
 
-    List<Message> getNotProcessingInByType(@Param("type")Integer type, @Param("maxTryCount")Integer maxTryCount, @Param("status")int[] status);
+    List<Message> getNotProcessingInByType(@Param("type") Integer type, @Param("maxTryCount") Integer maxTryCount, @Param("status") int[] status);
 
     int updateTryCount(Message record);
     
