@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hmily.rabbitmq.rabbitmqcommon.entity.MessageFailed;
-import com.hmily.rabbitmq.rabbitmqcommon.service.IMessageFailedService;
 import com.hmily.rabbitmq.rabbitmqcommon.util.SnowFlake;
 
 @RestController
@@ -16,6 +14,7 @@ public class TestController {
 	
 	private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
+	@Autowired
     private ISnowFlakeService snowFlakeService;
 
     @GetMapping("/test/longid/rpc")

@@ -13,6 +13,7 @@ import com.hmily.rabbitmq.rabbitmqcommon.mapper.MessageMapper;
 import com.hmily.rabbitmq.rabbitmqcommon.mapper.OrderMapper;
 import com.hmily.rabbitmq.rabbitmqcommon.producer.RabbitOrderSender;
 import com.hmily.rabbitmq.rabbitmqcommon.service.IMessageService;
+import com.hmily.rabbitmq.rabbitmqcommon.service.ISnowFlakeService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,14 +30,8 @@ public class MessageServiceImpl implements IMessageService {
 
     private final  static Logger log = LoggerFactory.getLogger(MessageServiceImpl.class);
 
-    @Reference(version = "${snowFlakeServiceApi.version}",
-            application = "${dubbo.application.id}",
-            interfaceName = "com.hmily.dubbo.common.service.ISnowFlakeServiceApi",
-            check = false,
-            timeout = 1000,
-            retries = 0
-    )
-    private ISnowFlakeServiceApi snowFlakeServiceApi;
+    @Autowired
+    private ISnowFlakeService snowFlakeService;
 
     @Autowired
     private MessageMapper messageMapper;
@@ -50,7 +45,7 @@ public class MessageServiceImpl implements IMessageService {
     public ServerResponse createOrder(long userId) {
 //        首先是针对业务逻辑，进行下单的业务，保存到数据库后
 //        业务落库后，再对消息进行落库，
-        long msgId = snowFlakeServiceApi.getSnowFlakeID();
+        long msgId = snowFlakeService.getSnowFlakeID();
         Message message = new Message(msgId, TypeEnum.CREATE_ORDER.getCode(), userId + "创建订单：" + msgId,
                 0, MSGStatusEnum.SENDING.getCode(), DateUtils.addMinutes(new Date(), Constants.TRY_TIMEOUT));
         int row = messageMapper.insertSelective(message);
